@@ -1,5 +1,5 @@
 {
-  "name": "myapp-monorepo",
+  "name": "taxes-app",
   "private": true,
   "workspaces": [
     "apps/*",
