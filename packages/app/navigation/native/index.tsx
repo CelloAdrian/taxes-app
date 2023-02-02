@@ -18,6 +18,7 @@ export function NativeNavigation() {
         component={HomeScreen}
         options={{
           title: 'Home',
+          headerShown: false,
         }}
       />
       <Stack.Screen
