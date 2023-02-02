@@ -5,11 +5,32 @@ import { LinearGradient } from 'tamagui/linear-gradient'
 import { Edit } from '@tamagui/lucide-icons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+const houseValue = 500000
+const landValue = 1000000
+const waterYieldValue = 1000
+
 export function HomeScreen() {
   const houseSizeRef = useRef<TextInput>(null)
   const landSizeRef = useRef<TextInput>(null)
   const monthlyEarningsRef = useRef<TextInput>(null)
   const waterUsageRef = useRef<TextInput>(null)
+
+  const [houseSize, setHouseSize] = useState(0)
+  const [landSize, setLandSize] = useState(0)
+  const [monthlyEarnings, setMonthlyEarnings] = useState(0)
+  const [waterUsage, setWaterUsage] = useState(0)
+  const [monthlyTaxValue, setMonthlyTaxValue] = useState(0)
+
+  const calculateMonthlyTax = () => {
+    const houseTax = houseSize * houseValue
+    const landTax = landSize * landValue
+    const NJOP = houseTax + landTax
+    const NJKP = NJOP * 0.2
+    const earningTax = monthlyEarnings * 0.05
+    const waterTax = waterUsage * waterYieldValue * 0.1
+    const totalTax = (NJKP * 0.005) + earningTax + waterTax
+    setMonthlyTaxValue(totalTax)
+  }
 
   return (
     <>
@@ -36,7 +57,7 @@ export function HomeScreen() {
                 IDR.
               </Text>
               <Text color="#FDFDFC" fontFamily="Inter" fontSize={40} fontWeight="700">
-                1000000
+                {monthlyTaxValue}
               </Text>
             </XStack>
           </LinearGradient>
@@ -45,7 +66,7 @@ export function HomeScreen() {
               <Text color="#333333" fontFamily="Inter" fontSize={32} fontWeight="700">
                 Assets
               </Text>
-              <Button fontWeight="700" color="#FDFDFC">
+              <Button fontWeight="700" color="#FDFDFC" onPress={calculateMonthlyTax}>
                 Calculate
               </Button>
             </XStack>
@@ -67,9 +88,9 @@ export function HomeScreen() {
                         backgroundColor: 'transparent',
                         borderColor: 'transparent',
                       }}
-                    >
-                      100
-                    </TextInput>
+                      defaultValue={houseSize.toString()}
+                      onChangeText={(text) => setHouseSize(parseInt(text))}
+                    />
                     <Text color="#333333" fontFamily="Inter" fontSize={32} fontWeight="700">
                       m²
                     </Text>
@@ -102,9 +123,9 @@ export function HomeScreen() {
                         backgroundColor: 'transparent',
                         borderColor: 'transparent',
                       }}
-                    >
-                      100
-                    </TextInput>
+                      defaultValue={landSize.toString()}
+                      onChangeText={(text) => setLandSize(parseInt(text))}
+                    />
                     <Text color="#333333" fontFamily="Inter" fontSize={32} fontWeight="700">
                       m²
                     </Text>
@@ -137,9 +158,9 @@ export function HomeScreen() {
                         backgroundColor: 'transparent',
                         borderColor: 'transparent',
                       }}
-                    >
-                      1000000
-                    </TextInput>
+                      defaultValue={monthlyEarnings.toString()}
+                      onChangeText={(text) => setMonthlyEarnings(parseInt(text))}
+                    />
                     <Text color="#333333" fontFamily="Inter" fontSize={32} fontWeight="700">
                       IDR
                     </Text>
@@ -172,9 +193,9 @@ export function HomeScreen() {
                         backgroundColor: 'transparent',
                         borderColor: 'transparent',
                       }}
-                    >
-                      100
-                    </TextInput>
+                      defaultValue={waterUsage.toString()}
+                      onChangeText={(text) => setWaterUsage(parseInt(text))}
+                    />
                     <Text color="#333333" fontFamily="Inter" fontSize={32} fontWeight="700">
                       L
                     </Text>
